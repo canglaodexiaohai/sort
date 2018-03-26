@@ -1,0 +1,50 @@
+void _MergeSort(DataType* a, DataType* tmp, int left, int right)
+{
+    //对数组进行划分
+    if (left >= right)
+        return;
+    int mid = left + ((right - left) >> 1);
+    _MergeSort(a, tmp, left, mid);
+    _MergeSort(a, tmp, mid+1, right);
+    //开始进行归并
+    int begin1 = left, begin2 = mid + 1;
+    int end1 = mid, end2 = right;
+    int index = left;
+    while (begin1 <= end1&&begin2 <= end2)
+    {
+        if (a[begin1] < a[begin2])
+        {
+            tmp[index++] = a[begin1++];
+        }
+        else
+            tmp[index++] = a[begin2++];
+    }
+    while (begin1 <= end1)
+    {
+        tmp[index++] = a[begin1++];
+    }
+    while (begin2 <= end2)
+    {
+        tmp[index++] = a[begin2++];
+    }
+    //将tmp数组的内容赋值给a数组
+    index = left;
+    while (index <= right)
+    {
+        a[index] = tmp[index];
+        index++;
+    }
+}
+void MergeSort(DataType* a, size_t n)
+{
+    assert(a);
+    DataType* tmp = (DataType*)malloc(sizeof(DataType)*n);
+    _MergeSort(a,tmp,0,n-1);
+    free(tmp);//将申请的空间释放
+}
+void TestMergeSort()//测试归并排序
+{
+    DataType a[] = { 2, 5, 6, 9, 8, 3, 1, 0, 7, 4 };
+    MergeSort(a, sizeof(a) / sizeof(DataType));
+    PrintfBuff(a, sizeof(a) / sizeof(DataType));
+}
