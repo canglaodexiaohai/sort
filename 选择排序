@@ -1,0 +1,36 @@
+void Swap(DataType* x1, DataType* x2)
+{
+	DataType tmp = *x1;
+	*x1 = *x2;
+	*x2 = tmp;
+}
+void SelectSort(DataType* a, size_t n)//选择排序
+{
+	assert(a);
+	int left = 0;
+	int right = n - 1;
+	while (left < right)
+	{
+		int min = left;
+		int max = left;
+		for (int i = left; i <= right; i++)
+		{
+			if (a[i] < a[min])
+				min = i;
+			if (a[i]>a[max])
+				max = i;
+		}
+		Swap(&a[min], &a[left]);
+		if (max == left)//防止最大值在左边，最小值在右边
+			max = min;
+		Swap(&a[max], &a[right]);
+		++left;
+		--right;
+	}
+}
+void TestSelectSort()
+{
+	DataType a[] = { 2, 5, 6, 9, 8, 3, 1, 0, 7, 4 };
+	SelectSort(a, sizeof(a) / sizeof(DataType));
+	PrintfBuff(a, sizeof(a) / sizeof(DataType));
+}
