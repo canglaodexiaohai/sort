@@ -1,0 +1,26 @@
+void QuickSortOP(DataType* a, int left, int right)
+{
+	assert(a);
+	Stack s;
+	StackInit(&s);
+	StackPush(&s, left);
+	StackPush(&s, right);
+	while (StackEmpty(&s) != 0)
+	{
+		int end = StackTop(&s);
+		StackPop(&s);
+		int begin = StackTop(&s);
+		StackPop(&s);
+		int div = PartSort1(a, begin, end);
+		if (begin < div - 1)
+		{
+			StackPush(&s, begin);
+			StackPush(&s, div - 1);
+		}
+		if (div + 1 < end)
+		{
+			StackPush(&s, div + 1);
+			StackPush(&s, end);
+		}
+	}
+}
